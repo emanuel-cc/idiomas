@@ -1,8 +1,26 @@
+
 $(document).ready(function(){
     var selector = '#translate';
     var selector2 = '#translate2';
     var selector3 = '#translate3';
     var selector4 = '#translate4';
+
+    var valueDatos;
+    var valueTituloSitio;
+    var valueBienvenido;
+    var valueHola;
+
+    var language;
+
+    var getBienvenido;
+    var getTitulo;
+    var getSaludo;
+    var getidioma;
+
+    var tituloLocale = localStorage;
+    var bienvenidoLocale = localStorage;
+    var saludoLocale = localStorage;
+    var idioma = localStorage;
 
     $(selector).on('click', function(e){
       e.preventDefault();
@@ -20,6 +38,7 @@ $(document).ready(function(){
       e.preventDefault();
       startLang( $(this) );
     });
+
     var startLang = function(el){
       var el = $(el);
       var text = el.attr('data-text');
@@ -46,33 +65,73 @@ $(document).ready(function(){
     };
   
     var loadLang = function(lang){
+      language = lang;
+      idioma = localStorage.setItem("lang",language);
+      getidioma = localStorage.getItem("lang");
+      console.log("Idioma: "+getidioma);
       var processLang = function(data){
+        
         var arr = data.split('\n');
+        valueDatos = arr;
+        
         for(var i in arr){
+
+          
+          
+          valueTituloSitio = arr[0];
+          
+          
+          valueBienvenido = arr[1];
+          
+          valueHola = arr[2];
+          
           if( lineValid(arr[i]) ){
             var obj = arr[i].split('=>');
             assignText(obj[0], obj[1]);
-            
           }
         }
-       
-        //console.log(cat);
+
+        
+
+        /*if (typeof(Storage) !== "undefined") {
+          // LocalStorage disponible
+          console.log("Disponible");
+        } else {
+            // LocalStorage no soportado en este navegador
+            console.log("No Disponible");
+        }*/
+      
+        
+        tituloLocale.setItem("titulo",valueTituloSitio.split('=>')[1]);
+        getTitulo = localStorage.getItem("titulo");
+
+        bienvenidoLocale.setItem("bienvenido",valueBienvenido.split('=>')[1]);
+        getBienvenido = localStorage.getItem("bienvenido");
+
+        saludoLocale.setItem("saludo",valueHola.split('=>')[1]);
+        getSaludo = localStorage.getItem("saludo");
+        $("#bienvenidos").html(getBienvenido);
+        
+        console.log("bienvenidoLocale: "+getBienvenido);
+        console.log("ValueDatos: "+valueDatos);
+        console.log("ValueTituloSitio: "+valueTituloSitio.split('=>')[1]);
+        console.log("ValueBienvenido: "+valueBienvenido.split('=>')[1]);
+        console.log("ValueHola: "+valueHola.split('=>')[1]);
       };
+      
       var assignText = function(key, value){
+        
         $('[data-lang="'+key+'"]').each(function(){
           var attr = $(this).attr('data-destine');
           if(typeof attr !== 'undefined'){
             $(this).attr(attr, value);
           }else{
             $(this).html(value);
+            
           }
           
         });
-        miStorage = window.localStorage;
-        miStorage.setItem('idioma',value);
-        var cat = localStorage.getItem('idioma');
       };
-     
       var lineValid = function(line){
         return (line.trim().length > 0);
       };
@@ -89,5 +148,25 @@ $(document).ready(function(){
           
         }
       });
-    };  
+    };
+   /* if (navigator.geolocation) { //check if geolocation is available
+      navigator.geolocation.getCurrentPosition(function(position){
+        console.log("Ubicación: "+position);
+      });   
+    }*/
+
+    var idioma1 = navigator.language.split('-')[0] || navigator.userLanguage;
+    idioma = localStorage.getItem("lang");
+    console.log(idioma1);
+
+    
+    console.log("Language: "+idioma);
+
+    if(idioma1 != ''){
+      loadLang(idioma1);
+    }else{
+      loadLang(idioma);//fr
+    }
+
+    
   });
