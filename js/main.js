@@ -22,6 +22,8 @@ $(document).ready(function(){
     var saludoLocale = localStorage;
     var idioma = localStorage;
 
+    
+
     $(selector).on('click', function(e){
       e.preventDefault();
       startLang( $(this) );
@@ -38,6 +40,34 @@ $(document).ready(function(){
       e.preventDefault();
       startLang( $(this) );
     });
+
+    function inicializar(){
+      selector.addEventListener("load",function(e){
+        e.preventDefault();
+        startLang( $(this) );
+      });
+
+      selector2.removeEventListener("load",function(e){
+        e.preventDefault();
+        startLang( $(this) );
+      });
+      selector3.removeEventListener("load",function(e){
+        e.preventDefault();
+        startLang( $(this) );
+      });
+
+      selector4.removeEventListener("load",function(e){
+        e.preventDefault();
+        startLang( $(this) );
+      });
+
+     /* if(idioma === undefined){
+        loadLang(idioma1);
+      }else{
+        loadLang(idioma);
+      }
+      */
+    }
 
     var startLang = function(el){
       var el = $(el);
@@ -65,25 +95,31 @@ $(document).ready(function(){
     };
   
     var loadLang = function(lang){
-      language = lang;
-      idioma = localStorage.setItem("lang",language);
-      getidioma = localStorage.getItem("lang");
-      console.log("Idioma: "+getidioma);
+     // language = lang;
+      //document.cookie = lang;
+      document.cookie ="idioma="+lang + ";" + "expires=Thu, 01 Dec 2024 00:00:00 UTC;";
+      //document.cookie ="idioma="+ "" + ";" + "expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+      console.log("micookie: "+document.cookie);
+      console.log("cookie: "+document.cookie.split(';')[0].split('=')[1]);
+     
+     // idioma = localStorage.setItem("lang",language);
+     // getidioma = localStorage.getItem("lang");
+     // console.log("Idioma: "+getidioma);
       var processLang = function(data){
         
         var arr = data.split('\n');
-        valueDatos = arr;
+        //valueDatos = arr;
         
         for(var i in arr){
 
           
           
-          valueTituloSitio = arr[0];
+          //valueTituloSitio = arr[0];
           
           
-          valueBienvenido = arr[1];
+          //valueBienvenido = arr[1];
           
-          valueHola = arr[2];
+         // valueHola = arr[2];
           
           if( lineValid(arr[i]) ){
             var obj = arr[i].split('=>');
@@ -102,21 +138,21 @@ $(document).ready(function(){
         }*/
       
         
-        tituloLocale.setItem("titulo",valueTituloSitio.split('=>')[1]);
-        getTitulo = localStorage.getItem("titulo");
+        //tituloLocale.setItem("titulo",valueTituloSitio.split('=>')[1]);
+        //getTitulo = localStorage.getItem("titulo");
 
-        bienvenidoLocale.setItem("bienvenido",valueBienvenido.split('=>')[1]);
-        getBienvenido = localStorage.getItem("bienvenido");
+        //bienvenidoLocale.setItem("bienvenido",valueBienvenido.split('=>')[1]);
+        //getBienvenido = localStorage.getItem("bienvenido");
 
-        saludoLocale.setItem("saludo",valueHola.split('=>')[1]);
-        getSaludo = localStorage.getItem("saludo");
-        $("#bienvenidos").html(getBienvenido);
+        //saludoLocale.setItem("saludo",valueHola.split('=>')[1]);
+        //getSaludo = localStorage.getItem("saludo");
+       // $("#bienvenidos").html(getBienvenido);
         
-        console.log("bienvenidoLocale: "+getBienvenido);
-        console.log("ValueDatos: "+valueDatos);
-        console.log("ValueTituloSitio: "+valueTituloSitio.split('=>')[1]);
-        console.log("ValueBienvenido: "+valueBienvenido.split('=>')[1]);
-        console.log("ValueHola: "+valueHola.split('=>')[1]);
+        //console.log("bienvenidoLocale: "+getBienvenido);
+        //console.log("ValueDatos: "+valueDatos);
+        //console.log("ValueTituloSitio: "+valueTituloSitio.split('=>')[1]);
+        //console.log("ValueBienvenido: "+valueBienvenido.split('=>')[1]);
+        //console.log("ValueHola: "+valueHola.split('=>')[1]);
       };
       
       var assignText = function(key, value){
@@ -156,17 +192,21 @@ $(document).ready(function(){
     }*/
 
     var idioma1 = navigator.language.split('-')[0] || navigator.userLanguage;
-    idioma = localStorage.getItem("lang");
+    //idioma = localStorage.getItem("lang");
+    idioma = document.cookie.split(';')[0].split('=')[1];
+    //idioma = document.cookie.split('=')[0];
     console.log(idioma1);
-
+    
     
     console.log("Language: "+idioma);
 
-    if(idioma1 != ''){
+    if(idioma === undefined){
       loadLang(idioma1);
     }else{
-      loadLang(idioma);//fr
+      loadLang(idioma);
     }
+
+    
 
     
   });

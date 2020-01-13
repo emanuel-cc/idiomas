@@ -1,3 +1,4 @@
 titulo-web=>Mi sitio multilenguaje
 bienvenidos=>Bienvenidos a mi sitio
 hola=>Hola Mundo
+texto2=>Texto Inicio

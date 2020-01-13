@@ -1,3 +1,4 @@
 titulo-web=>我的多语言网站
 bienvenidos=>欢迎来到我的网站
 hola=>你好世界
+texto2=>开始文字
